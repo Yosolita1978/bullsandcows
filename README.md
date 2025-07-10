@@ -1,5 +1,7 @@
 # Bulls and Cows Game
 
+![Mobile Screenshot](https://github.com/Yosolita1978/screenshoots/blob/main/2025/WhatsApp%20Image%202025-07-09%20at%206.38.08%20PM.jpeg?raw=true)
+
 This is a simple implementation of the Bulls and Cows game using JavaScript, HTML, and CSS.
 
 ## Game Description

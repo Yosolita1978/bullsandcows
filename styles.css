@@ -1,0 +1,171 @@
+/*
+Coral Pink #FE938C
+Beige #EBEBD3
+Lapiz Lazuli #38618C
+Dark Purple #3B1F2B
+Cerulean #4281A4
+
+*/
+
+
+body{
+    background-color: #4281A4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #3B1F2B;
+}
+
+.game {
+    background-color: #EBEBD3;
+    max-width: 1000px;
+    border-radius: 4px;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+header{
+    font-size: 25px;
+    text-align: center;
+    color: #FE938C;
+
+}
+
+h1{
+    margin: 0;
+    font-size: 45px;
+}
+
+.subtitle{
+    color: #010203;
+    margin-top: 0.5em;
+    font-size: 25px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(6, 50px);
+    /* Adjust the number of columns if necessary */
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.secret-row,
+.guess-row {
+    background-color: #38618C;
+    color: white;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    border-radius: 5px;
+}
+
+.number-box {
+    background-color: #38618C;
+    color: white;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    border-radius: 5px;
+}
+
+.feedback {
+    color: #FE938C;
+    margin-left: 5px;
+    font-size: 16px;
+    grid-column: span 2;
+    align-self: center;
+}
+
+.message {
+    margin: 10px 0;
+    font-size: 18px;
+    text-align: center;
+}
+
+.form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 270px;
+    font-size: 1em;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #4281A4;
+}
+
+button {
+    background-color: #FE938C;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+button:hover {
+    background-color: #4281A4;
+}
+
+.help{
+    display: block;
+}
+
+.instructions-back{
+    display: none;
+    line-height: 125%;
+}
+
+.winning-number {
+    color: white;
+    background-color: #3B1F2B;
+    font-weight: bold;
+}
+
+/* Media Queries for Responsiveness */
+
+@media (max-width: 1000px){
+    body{
+        background-color: #EBEBD3;
+    }
+
+    input[type="text"]{
+        width: unset;
+    }
+
+}

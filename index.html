@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulls&Cows</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="game">
+    <header>
+        <h1>Welcome to my JS Game</h1>
+        <p class="subtitle">Bulls & Cows</p>
+    </header>
+        <div class="container" id="number-container">
+            <!-- Secret number boxes will be appended here -->
+        </div>
+        <div class="container" id="game-container">
+            <!-- All game rows will be appended here -->
+        </div>
+        <div class="message" id="message"></div>
+        <div class="form-container">
+            <form id="guess-form">
+                <input type="text" id="guess-input" placeholder="Enter your guess">
+                <button type="submit">Enter</button>
+            </form>
+        </div>
+
+
+        <div class="card">
+            <div class="content">
+                <a href="#" id="help-link" class="help">How to play?</a>
+                <div class="instructions-back">
+                    <ol>
+                        <li>Enter a 4-digit number in the input box.</li>
+                        <li>Click "Submit" to guess the secret number.</li>
+                        <li>You'll get feedback: "bulls" for correct digits in the right place and "cows" for correct digits in the wrong place.</li>
+                        <li>You have 10 attempts to guess the number.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+
+
+</html>

@@ -7,41 +7,41 @@ Cerulean #4281A4
 
 */
 
-
-body{
+body {
     background-color: #4281A4;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     font-family: Arial, sans-serif;
     color: #3B1F2B;
+    padding: 1em;
+    box-sizing: border-box;
 }
 
 .game {
     background-color: #EBEBD3;
     max-width: 1000px;
+    width: 100%;
     border-radius: 4px;
     padding: 2em;
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
-header{
+header {
     font-size: 25px;
     text-align: center;
     color: #FE938C;
-
 }
 
-h1{
+h1 {
     margin: 0;
     font-size: 45px;
 }
 
-.subtitle{
+.subtitle {
     color: #010203;
     margin-top: 0.5em;
     font-size: 25px;
@@ -50,22 +50,8 @@ h1{
 .container {
     display: grid;
     grid-template-columns: repeat(6, 50px);
-    /* Adjust the number of columns if necessary */
     gap: 10px;
     margin-bottom: 25px;
-}
-
-.secret-row,
-.guess-row {
-    background-color: #38618C;
-    color: white;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5em;
-    border-radius: 5px;
 }
 
 .number-box {
@@ -110,6 +96,7 @@ form {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 input[type="text"] {
@@ -137,18 +124,27 @@ button {
     transition: background-color 0.3s;
 }
 
-
 button:hover {
     background-color: #4281A4;
 }
 
-.help{
+.help {
     display: block;
+    font-size: 16px;
+    color: #4281A4;
+    text-decoration: underline;
+    text-align: center;
+    margin-top: 1em;
+    cursor: pointer;
 }
 
-.instructions-back{
+.instructions-back {
     display: none;
     line-height: 125%;
+    margin-top: 10px;
+    font-size: 14px;
+    max-width: 300px;
+    text-align: left;
 }
 
 .winning-number {
@@ -157,15 +153,46 @@ button:hover {
     font-weight: bold;
 }
 
-/* Media Queries for Responsiveness */
-
-@media (max-width: 1000px){
-    body{
-        background-color: #EBEBD3;
+/* 🔁 Mobile responsiveness */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 28px;
     }
 
-    input[type="text"]{
-        width: unset;
+    .subtitle {
+        font-size: 18px;
     }
 
+    input[type="text"] {
+        width: 180px;
+    }
+
+    .number-box {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+    }
+
+    button {
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+
+    .form-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .help {
+        font-size: 14px;
+        margin-bottom: 0.5em;
+    }
+
+    .instructions-back {
+        font-size: 14px;
+    }
 }

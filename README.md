@@ -38,28 +38,6 @@ To run this game, you need a web browser with JavaScript enabled.
 - `styles.css`: The CSS file that styles the game interface.
 - `script.js`: The JavaScript file that contains the game logic.
 
-## Code Overview
-
-### Variables
-
-- `numbers`: Array containing digits 0-9.
-- `secretNumbers`: Array to store the secret number.
-- `guesses`: Array to store the user's guesses.
-- `guess`: Variable to store the current guess.
-- `turns`: Counter for the number of attempts.
-- `numberBoxes`: Array to store the DOM elements representing the secret number boxes.
-
-### Functions
-
-- `checkBulls(secretNumber, userInput)`: Returns the number of bulls in the user's guess.
-- `checkCows(secretNumber, userInput)`: Returns the number of cows in the user's guess.
-- `enforceDigitLimit(event)`: Enforces a 4-digit limit on the user's input.
-
-### Event Listeners
-
-- `keydown` event on the input field to enforce the digit limit.
-- `submit` event on the form to handle the user's guess submission.
-
 ## Game Logic
 
 1. The secret number is randomly generated when the page loads.

@@ -50,9 +50,9 @@ function generateShareMessage() {
     const baseMessage = "🎯 I just played Bulls & Cows!";
     
     if (playerWon) {
-        return `${baseMessage}\n🏆 I won in ${turns} attempt${turns === 1 ? '' : 's'}!\n\nCan you beat my score? 🤔\n\nbulls.yosola.co`;
+        return `${baseMessage}\n🏆 I won in ${turns} attempt${turns === 1 ? '' : 's'}!\n\nCan you beat my score? 🤔\n\nhttps://bulls.yosola.co`;
     } else {
-        return `${baseMessage}\n😅 I couldn't crack the code in 10 attempts!\n\nCan you do better? 🤔\n\nbulls.yosola.co`;
+        return `${baseMessage}\n😅 I couldn't crack the code in 10 attempts!\n\nCan you do better? 🤔\n\nhttps://bulls.yosola.co`;
     }
 }
 

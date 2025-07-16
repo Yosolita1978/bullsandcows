@@ -50,9 +50,9 @@ function generateShareMessage() {
     const baseMessage = "🎯 I just played Bulls & Cows!";
     
     if (playerWon) {
-        return `${baseMessage}\n🏆 I won in ${turns} attempt${turns === 1 ? '' : 's'}!\n\nCan you beat my score? 🤔`;
+        return `${baseMessage}\n🏆 I won in ${turns} attempt${turns === 1 ? '' : 's'}!\n\nCan you beat my score? 🤔\n\nbulls.yosola.co`;
     } else {
-        return `${baseMessage}\n😅 I couldn't crack the code in 10 attempts!\n\nCan you do better? 🤔`;
+        return `${baseMessage}\n😅 I couldn't crack the code in 10 attempts!\n\nCan you do better? 🤔\n\nbulls.yosola.co`;
     }
 }
 
@@ -61,7 +61,11 @@ function showShareOptions() {
     shareContainer.style.display = 'block';
 }
 
-
+// --- Auto-scroll to bottom of game container ---
+function scrollToLatestGuess() {
+    const gameContainer = document.getElementById('game-container');
+    gameContainer.scrollTop = gameContainer.scrollHeight;
+}
 
 // --- Limit input to 4 digits ---
 document.getElementById('guess-input').addEventListener('input', (e) => {
@@ -155,6 +159,11 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
     guessBlock.appendChild(guessRow);
     guessBlock.appendChild(feedback);
     gameContainer.appendChild(guessBlock);
+
+    // Auto-scroll to show the latest guess
+    setTimeout(() => {
+        scrollToLatestGuess();
+    }, 100);
 
     input.value = '';
 });

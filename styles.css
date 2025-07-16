@@ -431,3 +431,9 @@ button:disabled {
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 }
+
+@media (max-width: 480px) {
+    #game-container {
+        max-height: 250px; /* Increased from default for better visibility */
+    }
+}

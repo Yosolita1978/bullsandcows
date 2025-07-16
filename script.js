@@ -3,6 +3,8 @@ const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 let secretNumbers = [];
 let turns = 0;
 let numberBoxes = [];
+let gameEnded = false;
+let playerWon = false;
 
 for (let i = 0; i < 4; i++) {
     const index = Math.floor(Math.random() * numbers.length);
@@ -43,6 +45,24 @@ function checkCows(secret, input) {
     return cows;
 }
 
+// --- Share functionality ---
+function generateShareMessage() {
+    const baseMessage = "🎯 I just played Bulls & Cows!";
+    
+    if (playerWon) {
+        return `${baseMessage}\n🏆 I won in ${turns} attempt${turns === 1 ? '' : 's'}!\n\nCan you beat my score? 🤔`;
+    } else {
+        return `${baseMessage}\n😅 I couldn't crack the code in 10 attempts!\n\nCan you do better? 🤔`;
+    }
+}
+
+function showShareOptions() {
+    const shareContainer = document.getElementById('share-container');
+    shareContainer.style.display = 'block';
+}
+
+
+
 // --- Limit input to 4 digits ---
 document.getElementById('guess-input').addEventListener('input', (e) => {
     e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
@@ -72,19 +92,41 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
     // --- Winning condition ---
     if (guess === secretStr) {
         input.disabled = true;
+        gameEnded = true;
+        playerWon = true;
+        
         numberBoxes.forEach((box, i) => {
             box.textContent = secretNumbers[i];
             box.classList.add('winning-number');
         });
         message.textContent = "You win!";
         message.classList.add("success");
+        
+        // Show share options
+        setTimeout(() => {
+            showShareOptions();
+        }, 1000);
     }
 
     turns++;
     if (turns >= 10 && guess !== secretStr) {
+        gameEnded = true;
+        playerWon = false;
+        
         message.textContent = "You lose! No more attempts left.";
         message.classList.add("error");
         input.disabled = true;
+        
+        // Reveal the secret number
+        numberBoxes.forEach((box, i) => {
+            box.textContent = secretNumbers[i];
+            box.style.backgroundColor = '#FE938C';
+        });
+        
+        // Show share options
+        setTimeout(() => {
+            showShareOptions();
+        }, 1000);
     }
 
     const bulls = checkBulls(secretStr, guess);
@@ -122,4 +164,17 @@ document.getElementById('help-link').addEventListener('click', function (e) {
     e.preventDefault();
     const instructions = document.querySelector('.instructions-back');
     instructions.style.display = instructions.style.display === 'block' ? 'none' : 'block';
+});
+
+// --- Share functionality event listeners ---
+document.getElementById('mastodon-btn').addEventListener('click', () => {
+    const shareText = generateShareMessage();
+    const encodedText = encodeURIComponent(shareText);
+    
+    // Prompt user for their Mastodon instance or use a default
+    const instance = prompt('Enter your Mastodon instance (e.g., mastodon.social):') || 'mastodon.social';
+    const cleanInstance = instance.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    
+    const mastodonUrl = `https://${cleanInstance}/share?text=${encodedText}`;
+    window.open(mastodonUrl, '_blank');
 });

@@ -89,20 +89,24 @@ h1 {
     margin-bottom: 1em;
     max-height: 300px;
     overflow-y: auto;
-    padding: 0 0.5em;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* CHANGED: Wider background while keeping compact content */
+/* CHANGED: Force full width and better mobile rendering */
 .guess-block {
-    margin-bottom: 0.8em;
+    margin: 0 0.5em 0.8em 0.5em;
     padding: 0.5em 0.8em;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 0.5em;
+    justify-content: space-between;
+    gap: 0.6em;
     flex-wrap: nowrap;
-    width: 100%;
+    width: calc(100% - 1em);
+    box-sizing: border-box;
+    min-width: 0;
 }
 
 .guess-row {
@@ -404,7 +408,7 @@ button:disabled {
         flex-direction: row;
         gap: 0.5em;
         align-items: center;
-        background-color: rgba(255, 255, 255, 0.3);
+        justify-content: space-between;
     }
     
     .feedback-block {

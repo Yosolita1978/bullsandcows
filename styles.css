@@ -93,7 +93,7 @@ h1 {
     box-sizing: border-box;
 }
 
-/* CHANGED: Force full width and better mobile rendering */
+/* CHANGED: Removed space-between for better natural spacing */
 .guess-block {
     margin: 0 0.5em 0.8em 0.5em;
     padding: 0.5em 0.8em;
@@ -101,11 +101,15 @@ h1 {
     border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 0.6em;
+    gap: 1em;
     flex-wrap: nowrap;
     width: calc(100% - 1em);
     box-sizing: border-box;
     min-width: 0;
+    /* Firefox mobile specific fixes */
+    -moz-box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
 }
 
 .guess-row {
@@ -407,7 +411,7 @@ button:disabled {
         flex-direction: row;
         gap: 0.5em;
         align-items: center;
-    
+        justify-content: space-between;
     }
     
     .feedback-block {
@@ -483,5 +487,23 @@ button:disabled {
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .number-box {
         border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Firefox mobile specific fixes */
+@supports (-moz-appearance: none) {
+    @media (max-width: 768px) {
+        .guess-block {
+            width: auto !important;
+            left: 0.5em;
+            right: 0.5em;
+            margin-left: 0;
+            margin-right: 0;
+            position: relative;
+        }
+        
+        #game-container {
+            padding: 0 0.5em;
+        }
     }
 }

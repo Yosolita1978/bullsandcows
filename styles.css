@@ -92,27 +92,29 @@ h1 {
     padding: 0 0.5em;
 }
 
-/* CHANGED: True inline layout for guess blocks */
+/* CHANGED: Ensure everything fits on one line */
 .guess-block {
     margin-bottom: 0.8em;
-    padding: 0.4em 0.6em;
+    padding: 0.3em 0.5em;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.8em;
+    gap: 0.5em;
+    flex-wrap: nowrap;
 }
 
 .guess-row {
     display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
+    gap: 4px;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
 }
 
-/* CHANGED: More compact feedback for true inline layout */
+/* CHANGED: More compact feedback to ensure single row layout */
 .feedback-block {
-    font-size: 0.8em;
+    font-size: 0.75em;
     font-weight: bold;
     color: #3B1F2B;
     white-space: nowrap;
@@ -123,15 +125,16 @@ h1 {
 .number-box {
     background-color: #38618C;
     color: white;
-    width: clamp(35px, 10vw, 50px);
-    height: clamp(35px, 10vw, 50px);
+    width: clamp(28px, 6vw, 40px);
+    height: clamp(28px, 6vw, 40px);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    font-size: clamp(0.8rem, 2vw, 1rem);
     font-weight: bold;
-    border-radius: 8px;
+    border-radius: 6px;
     transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
 .winning-number {
@@ -360,17 +363,18 @@ button:disabled {
     }
     
     .number-box {
-        min-width: 30px;
-        min-height: 30px;
+        min-width: 25px;
+        min-height: 25px;
+        font-size: 0.75rem;
     }
     
     #number-container {
-        gap: 6px;
+        gap: 4px;
         margin-bottom: 1em;
     }
     
     .guess-row {
-        gap: 4px;
+        gap: 3px;
     }
     
     .message {

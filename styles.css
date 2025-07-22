@@ -100,8 +100,7 @@ h1 {
     border-radius: 8px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.6em;
+    gap: 0.5em;
     flex-wrap: nowrap;
     width: 100%;
 }
@@ -405,7 +404,7 @@ button:disabled {
         flex-direction: row;
         gap: 0.5em;
         align-items: center;
-        justify-content: space-between;
+        background-color: rgba(255, 255, 255, 0.3);
     }
     
     .feedback-block {

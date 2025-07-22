@@ -92,17 +92,18 @@ h1 {
     padding: 0 0.5em;
 }
 
-/* CHANGED: Ensure everything fits on one line */
+/* CHANGED: Wider background while keeping compact content */
 .guess-block {
     margin-bottom: 0.8em;
-    padding: 0.3em 0.5em;
+    padding: 0.5em 0.8em;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5em;
+    gap: 0.6em;
     flex-wrap: nowrap;
+    width: 100%;
 }
 
 .guess-row {

@@ -23,6 +23,20 @@ secretNumbers.forEach(() => {
     numberBoxes.push(box);
 });
 
+// --- NEW: Update turn counter ---
+function updateTurnCounter() {
+    const turnCounter = document.getElementById('turn-counter');
+    if (turns === 0) {
+        turnCounter.textContent = 'Get ready to play!';
+    } else if (!gameEnded) {
+        turnCounter.textContent = `Attempt ${turns} of 10`;
+    } else if (playerWon) {
+        turnCounter.textContent = `🎉 Won in ${turns} attempt${turns === 1 ? '' : 's'}!`;
+    } else {
+        turnCounter.textContent = '💔 Game Over - 10 attempts used';
+    }
+}
+
 // --- Helpers for bulls and cows ---
 function checkBulls(secret, input) {
     let bulls = 0;
@@ -93,6 +107,9 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
     const guessArr = guess.split('');
     const secretStr = secretNumbers.join('');
 
+    turns++;
+    updateTurnCounter(); // CHANGED: Update counter immediately after incrementing turns
+
     // --- Winning condition ---
     if (guess === secretStr) {
         input.disabled = true;
@@ -106,13 +123,14 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
         message.textContent = "You win!";
         message.classList.add("success");
         
+        updateTurnCounter(); // CHANGED: Update with winning message
+        
         // Show share options
         setTimeout(() => {
             showShareOptions();
         }, 1000);
     }
 
-    turns++;
     if (turns >= 10 && guess !== secretStr) {
         gameEnded = true;
         playerWon = false;
@@ -126,6 +144,8 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
             box.textContent = secretNumbers[i];
             box.style.backgroundColor = '#FE938C';
         });
+        
+        updateTurnCounter(); // CHANGED: Update with losing message
         
         // Show share options
         setTimeout(() => {
@@ -187,3 +207,6 @@ document.getElementById('mastodon-btn').addEventListener('click', () => {
     const mastodonUrl = `https://${cleanInstance}/share?text=${encodedText}`;
     window.open(mastodonUrl, '_blank');
 });
+
+// NEW: Initialize turn counter on page load
+updateTurnCounter();

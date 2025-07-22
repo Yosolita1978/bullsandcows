@@ -70,6 +70,19 @@ h1 {
     flex-wrap: wrap;
 }
 
+/* NEW: Turn counter - made smaller */
+.turn-counter {
+    text-align: center;
+    margin-bottom: 0.8em;
+    font-weight: bold;
+    font-size: 0.95em;
+    color: #3B1F2B;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 0.3em 0.6em;
+    border-radius: 4px;
+    border: 1px solid #38618C;
+}
+
 /* Game container for all guesses */
 #game-container {
     width: 100%;
@@ -79,37 +92,43 @@ h1 {
     padding: 0 0.5em;
 }
 
+/* CHANGED: True inline layout for guess blocks */
 .guess-block {
-    margin-bottom: 1em;
-    padding: 0.5em;
+    margin-bottom: 0.8em;
+    padding: 0.4em 0.6em;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8em;
 }
 
 .guess-row {
     display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 0.5em;
+    gap: 6px;
     flex-wrap: wrap;
 }
 
+/* CHANGED: More compact feedback for true inline layout */
 .feedback-block {
-    text-align: center;
-    font-size: 0.9em;
+    font-size: 0.8em;
     font-weight: bold;
     color: #3B1F2B;
+    white-space: nowrap;
+    min-width: fit-content;
+    flex-shrink: 0;
 }
 
 .number-box {
     background-color: #38618C;
     color: white;
-    width: clamp(40px, 12vw, 60px);
-    height: clamp(40px, 12vw, 60px);
+    width: clamp(35px, 10vw, 50px);
+    height: clamp(35px, 10vw, 50px);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
     font-weight: bold;
     border-radius: 8px;
     transition: all 0.2s ease;
@@ -166,7 +185,7 @@ form {
     align-items: center;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
     padding: 12px 16px;
     width: 100%;
     max-width: 300px;
@@ -179,12 +198,12 @@ input[type="text"] {
     letter-spacing: 0.2em;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="number"]:focus {
     border-color: #4281A4;
     box-shadow: 0 0 0 3px rgba(66, 129, 164, 0.1);
 }
 
-input[type="text"]:disabled {
+input[type="text"]:disabled, input[type="number"]:disabled {
     background-color: #f5f5f5;
     cursor: not-allowed;
 }
@@ -329,7 +348,7 @@ button:disabled {
         gap: 0.8em;
     }
     
-    input[type="text"] {
+    input[type="text"], input[type="number"] {
         font-size: 1rem;
         padding: 10px 12px;
     }
@@ -341,8 +360,8 @@ button:disabled {
     }
     
     .number-box {
-        min-width: 35px;
-        min-height: 35px;
+        min-width: 30px;
+        min-height: 30px;
     }
     
     #number-container {
@@ -351,7 +370,7 @@ button:disabled {
     }
     
     .guess-row {
-        gap: 6px;
+        gap: 4px;
     }
     
     .message {
@@ -375,6 +394,23 @@ button:disabled {
         padding: 12px 24px;
         min-width: 180px;
     }
+    
+    /* CHANGED: Keep horizontal layout on mobile too */
+    .guess-block {
+        flex-direction: row;
+        gap: 0.5em;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .feedback-block {
+        font-size: 0.75em;
+        min-width: auto;
+    }
+    
+    #game-container {
+        max-height: 250px;
+    }
 }
 
 /* Landscape mobile optimization */
@@ -394,7 +430,7 @@ button:disabled {
         flex-wrap: wrap;
     }
     
-    input[type="text"] {
+    input[type="text"], input[type="number"] {
         max-width: 200px;
     }
     
@@ -407,9 +443,9 @@ button:disabled {
 /* Very small screens */
 @media (max-width: 320px) {
     .number-box {
-        min-width: 30px;
-        min-height: 30px;
-        font-size: 0.9rem;
+        min-width: 28px;
+        min-height: 28px;
+        font-size: 0.8rem;
     }
     
     #number-container {
@@ -417,11 +453,22 @@ button:disabled {
     }
     
     .guess-row {
-        gap: 4px;
+        gap: 3px;
     }
     
     .form-container {
         padding: 0.8em;
+    }
+    
+    .feedback-block {
+        font-size: 0.7em;
+    }
+}
+
+/* Keep horizontal layout across all screen sizes */
+@media (min-width: 481px) {
+    .guess-block {
+        flex-direction: row;
     }
 }
 
@@ -429,11 +476,5 @@ button:disabled {
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .number-box {
         border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-}
-
-@media (max-width: 480px) {
-    #game-container {
-        max-height: 250px; /* Increased from default for better visibility */
     }
 }

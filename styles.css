@@ -125,6 +125,7 @@ h1 {
     white-space: nowrap;
     min-width: fit-content;
     flex-shrink: 0;
+    margin-left: 0.5em;
 }
 
 .number-box {

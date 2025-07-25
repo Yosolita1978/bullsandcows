@@ -13,6 +13,13 @@ for (let i = 0; i < 4; i++) {
 }
 console.log("Secret:", secretNumbers.join(""));
 
+// --- Helper to check for duplicate digits ---
+function hasDuplicateDigits(numberString) {
+    const digits = numberString.split('');
+    const uniqueDigits = new Set(digits);
+    return digits.length !== uniqueDigits.size;
+}
+
 // --- Render hidden secret number boxes ---
 const numberContainer = document.getElementById('number-container');
 secretNumbers.forEach(() => {
@@ -100,6 +107,13 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
 
     if (guess.length !== 4) {
         message.textContent = "Please enter a 4-digit number.";
+        message.classList.add("error");
+        return;
+    }
+    
+    // Check for duplicate digits
+    if (hasDuplicateDigits(guess)) {
+        message.textContent = "Please enter 4 different digits (no duplicates allowed).";
         message.classList.add("error");
         return;
     }

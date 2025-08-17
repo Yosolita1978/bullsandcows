@@ -331,6 +331,15 @@ button:disabled {
     transform: translateY(0);
 }
 
+/* WhatsApp button specific styling */
+#whatsapp-btn {
+    background-color: #25D366; /* WhatsApp green */
+}
+
+#whatsapp-btn:hover:not(:disabled) {
+    background-color: #1DA851; /* Darker WhatsApp green on hover */
+}
+
 /* Mobile Optimizations */
 @media (max-width: 480px) {
     body {

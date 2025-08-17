@@ -6,6 +6,9 @@ let numberBoxes = [];
 let gameEnded = false;
 let playerWon = false;
 
+// NEW: Variables for enhanced sharing
+let gameHistory = []; // Store each guess and its detailed feedback
+
 for (let i = 0; i < 4; i++) {
     const index = Math.floor(Math.random() * numbers.length);
     const number = numbers.splice(index, 1)[0];
@@ -30,7 +33,7 @@ secretNumbers.forEach(() => {
     numberBoxes.push(box);
 });
 
-// --- NEW: Update turn counter ---
+// --- Update turn counter ---
 function updateTurnCounter() {
     const turnCounter = document.getElementById('turn-counter');
     if (turns === 0) {
@@ -44,7 +47,48 @@ function updateTurnCounter() {
     }
 }
 
-// --- Helpers for bulls and cows ---
+// NEW: Enhanced feedback analysis for sharing (returns detailed position data)
+function checkDetailedFeedback(secret, input) {
+    const feedback = [];
+    const secretArr = secret.split('');
+    const inputArr = input.split('');
+    const usedSecretIndices = new Set();
+    const usedInputIndices = new Set();
+    
+    // First pass: find bulls (correct position)
+    for (let i = 0; i < inputArr.length; i++) {
+        if (secretArr[i] === inputArr[i]) {
+            feedback[i] = 'bull'; // 🐂 Bull emoji
+            usedSecretIndices.add(i);
+            usedInputIndices.add(i);
+        }
+    }
+    
+    // Second pass: find cows (correct digit, wrong position)
+    for (let i = 0; i < inputArr.length; i++) {
+        if (!usedInputIndices.has(i)) {
+            for (let j = 0; j < secretArr.length; j++) {
+                if (!usedSecretIndices.has(j) && secretArr[j] === inputArr[i]) {
+                    feedback[i] = 'cow'; // 🐄 Cow emoji
+                    usedSecretIndices.add(j);
+                    usedInputIndices.add(i);
+                    break;
+                }
+            }
+        }
+    }
+    
+    // Third pass: mark remaining as misses
+    for (let i = 0; i < inputArr.length; i++) {
+        if (!feedback[i]) {
+            feedback[i] = 'miss'; // ⚫ Black circle
+        }
+    }
+    
+    return feedback;
+}
+
+// --- Original bulls helper (kept for display purposes) ---
 function checkBulls(secret, input) {
     let bulls = 0;
     for (let i = 0; i < secret.length; i++) {
@@ -53,6 +97,7 @@ function checkBulls(secret, input) {
     return bulls;
 }
 
+// --- Original cows helper (kept for display purposes) ---
 function checkCows(secret, input) {
     let cows = 0;
     const tempSecret = [...secret];
@@ -66,15 +111,43 @@ function checkCows(secret, input) {
     return cows;
 }
 
-// --- Share functionality ---
-function generateShareMessage() {
-    const baseMessage = "🎯 I just played Bulls & Cows!";
+// NEW: Generate emoji grid from game history
+function generateEmojiGrid() {
+    let grid = '';
     
-    if (playerWon) {
-        return `${baseMessage}\n🏆 I won in ${turns} attempt${turns === 1 ? '' : 's'}!\n\nCan you beat my score? 🤔\n\nhttps://bulls.yosola.co`;
-    } else {
-        return `${baseMessage}\n😅 I couldn't crack the code in 10 attempts!\n\nCan you do better? 🤔\n\nhttps://bulls.yosola.co`;
-    }
+    gameHistory.forEach(entry => {
+        let row = '';
+        entry.feedback.forEach(result => {
+            switch(result) {
+                case 'bull':
+                    row += '🐂'; // Bull emoji for correct position
+                    break;
+                case 'cow':
+                    row += '🐄'; // Cow emoji for correct digit, wrong position
+                    break;
+                case 'miss':
+                    row += '⚫'; // Black circle for wrong digit
+                    break;
+            }
+        });
+        grid += row + '\n';
+    });
+    
+    return grid.trim();
+}
+
+// --- UPDATED: Share functionality with new format ---
+function generateShareMessage() {
+    const grid = generateEmojiGrid();
+    const attemptsText = playerWon ? `${turns}/10` : 'X/10';
+    
+    let message = `🎯 I just played Bulls & Cows!\n\n`;
+    message += `🐂 Bulls & 🐄 Cows ${attemptsText}\n\n`;
+    message += grid + '\n\n';
+    message += `Can you beat my score? 🤔\n\n`;
+    message += 'https://bulls.yosola.co';
+    
+    return message;
 }
 
 function showShareOptions() {
@@ -122,7 +195,23 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
     const secretStr = secretNumbers.join('');
 
     turns++;
-    updateTurnCounter(); // CHANGED: Update counter immediately after incrementing turns
+    updateTurnCounter(); // Update counter immediately after incrementing turns
+
+    // NEW: Get detailed feedback for sharing
+    const detailedFeedback = checkDetailedFeedback(secretStr, guess);
+    
+    // Original: Calculate bulls and cows for display (keeps same user experience)
+    const bulls = checkBulls(secretStr, guess);
+    const cows = checkCows(secretStr, guess);
+
+    // NEW: Store this guess in game history for sharing
+    gameHistory.push({
+        guess: guess,
+        feedback: detailedFeedback,
+        bulls: bulls,
+        cows: cows,
+        turn: turns
+    });
 
     // --- Winning condition ---
     if (guess === secretStr) {
@@ -137,7 +226,7 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
         message.textContent = "You win!";
         message.classList.add("success");
         
-        updateTurnCounter(); // CHANGED: Update with winning message
+        updateTurnCounter(); // Update with winning message
         
         // Show share options
         setTimeout(() => {
@@ -159,7 +248,7 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
             box.style.backgroundColor = '#FE938C';
         });
         
-        updateTurnCounter(); // CHANGED: Update with losing message
+        updateTurnCounter(); // Update with losing message
         
         // Show share options
         setTimeout(() => {
@@ -167,10 +256,7 @@ document.getElementById('guess-form').addEventListener('submit', function (e) {
         }, 1000);
     }
 
-    const bulls = checkBulls(secretStr, guess);
-    const cows = checkCows(secretStr, guess);
-
-    // --- Create guess row with feedback ---
+    // --- Create guess row with feedback (same as before) ---
     const gameContainer = document.getElementById('game-container');
 
     const guessBlock = document.createElement('div');
@@ -210,6 +296,14 @@ document.getElementById('help-link').addEventListener('click', function (e) {
 });
 
 // --- Share functionality event listeners ---
+document.getElementById('whatsapp-btn').addEventListener('click', () => {
+    const shareText = generateShareMessage();
+    const encodedText = encodeURIComponent(shareText);
+    
+    const whatsappUrl = `https://wa.me/?text=${encodedText}`;
+    window.open(whatsappUrl, '_blank');
+});
+
 document.getElementById('mastodon-btn').addEventListener('click', () => {
     const shareText = generateShareMessage();
     const encodedText = encodeURIComponent(shareText);
@@ -222,5 +316,5 @@ document.getElementById('mastodon-btn').addEventListener('click', () => {
     window.open(mastodonUrl, '_blank');
 });
 
-// NEW: Initialize turn counter on page load
+// Initialize turn counter on page load
 updateTurnCounter();

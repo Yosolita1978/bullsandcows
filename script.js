@@ -141,10 +141,23 @@ function generateShareMessage() {
     const grid = generateEmojiGrid();
     const attemptsText = playerWon ? `${turns}/10` : 'X/10';
     
-    let message = `🎯 I just played Bulls & Cows!\n\n`;
-    message += `🐂 Bulls & 🐄 Cows ${attemptsText}\n\n`;
+    let message = `I just played Bulls & Cows!\n\n`;
+    
+    if (playerWon) {
+        message += `🎉 I won in ${turns} attempt${turns === 1 ? '' : 's'}!\n\n`;
+    } else {
+        message += `😅 I couldn't crack the code in 10 attempts!\n\n`;
+    }
+    
+    message += `Bulls & Cows ${attemptsText}\n\n`;
     message += grid + '\n\n';
-    message += `Can you beat my score? 🤔\n\n`;
+    
+    if (playerWon) {
+        message += `Can you beat my score?\n\n`;
+    } else {
+        message += `Can you do better?\n\n`;
+    }
+    
     message += 'https://bulls.yosola.co';
     
     return message;

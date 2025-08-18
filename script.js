@@ -165,13 +165,105 @@ function generateShareMessage() {
 
 function showShareOptions() {
     const shareContainer = document.getElementById('share-container');
+    const newGameContainer = document.getElementById('new-game-container');
     shareContainer.style.display = 'block';
+    newGameContainer.style.display = 'block';
 }
 
 // --- Auto-scroll to bottom of game container ---
 function scrollToLatestGuess() {
     const gameContainer = document.getElementById('game-container');
     gameContainer.scrollTop = gameContainer.scrollHeight;
+}
+
+// --- NEW: Start a new game ---
+function startNewGame() {
+    // Reset game state
+    turns = 0;
+    gameEnded = false;
+    playerWon = false;
+    gameHistory = [];
+    
+    // Generate new secret number
+    const newNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    secretNumbers = [];
+    for (let i = 0; i < 4; i++) {
+        const index = Math.floor(Math.random() * newNumbers.length);
+        const number = newNumbers.splice(index, 1)[0];
+        secretNumbers.push(number);
+    }
+    console.log("New Secret:", secretNumbers.join(""));
+    
+    // Reset UI
+    const input = document.getElementById('guess-input');
+    const message = document.getElementById('message');
+    const gameContainer = document.getElementById('game-container');
+    const shareContainer = document.getElementById('share-container');
+    const newGameContainer = document.getElementById('new-game-container');
+    
+    // Clear and reset input
+    input.value = '';
+    input.disabled = false;
+    
+    // Clear message
+    message.textContent = '';
+    message.className = 'message';
+    
+    // Clear previous guesses
+    gameContainer.innerHTML = '';
+    
+    // Hide share and new game containers
+    shareContainer.style.display = 'none';
+    newGameContainer.style.display = 'none';
+    
+    // Reset secret number boxes
+    numberBoxes.forEach((box, i) => {
+        box.textContent = '*';
+        box.className = 'number-box'; // Reset classes
+        box.style.backgroundColor = ''; // Reset inline styles
+    });
+    
+    // Reset turn counter
+    updateTurnCounter();
+}
+
+// --- NEW: Copy share message to clipboard ---
+async function copyToClipboard() {
+    try {
+        const shareText = generateShareMessage();
+        await navigator.clipboard.writeText(shareText);
+        
+        // Provide feedback
+        const copyBtn = document.getElementById('copy-btn');
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = '✅ Copied!';
+        copyBtn.style.backgroundColor = '#28a745';
+        
+        setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.style.backgroundColor = '#6c757d';
+        }, 2000);
+    } catch (err) {
+        // Fallback for older browsers
+        const shareText = generateShareMessage();
+        const textArea = document.createElement('textarea');
+        textArea.value = shareText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        // Provide feedback
+        const copyBtn = document.getElementById('copy-btn');
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = '✅ Copied!';
+        copyBtn.style.backgroundColor = '#28a745';
+        
+        setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.style.backgroundColor = '#6c757d';
+        }, 2000);
+    }
 }
 
 // --- Limit input to 4 digits ---
@@ -328,6 +420,10 @@ document.getElementById('mastodon-btn').addEventListener('click', () => {
     const mastodonUrl = `https://${cleanInstance}/share?text=${encodedText}`;
     window.open(mastodonUrl, '_blank');
 });
+
+// --- NEW: Copy and New Game event listeners ---
+document.getElementById('copy-btn').addEventListener('click', copyToClipboard);
+document.getElementById('new-game-btn').addEventListener('click', startNewGame);
 
 // Initialize turn counter on page load
 updateTurnCounter();

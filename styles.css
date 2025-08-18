@@ -340,6 +340,47 @@ button:disabled {
     background-color: #1DA851; /* Darker WhatsApp green on hover */
 }
 
+/* Copy button specific styling */
+#copy-btn {
+    background-color: #6c757d; /* Gray for copy */
+}
+
+#copy-btn:hover:not(:disabled) {
+    background-color: #5a6268; /* Darker gray on hover */
+}
+
+/* New Game button container */
+.new-game-container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1.5em;
+}
+
+.new-game-button {
+    background-color: #28a745; /* Green for new game */
+    color: white;
+    padding: 12px 24px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.new-game-button:hover:not(:disabled) {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-1px);
+}
+
+.new-game-button:active {
+    transform: translateY(0);
+}
+
 /* Mobile Optimizations */
 @media (max-width: 480px) {
     body {
@@ -412,6 +453,13 @@ button:disabled {
         font-size: 0.9em;
         padding: 12px 24px;
         min-width: 180px;
+    }
+    
+    .new-game-button {
+        width: 90%;
+        margin: 0.5em 0;
+        font-size: 1rem;
+        padding: 12px;
     }
     
     /* CHANGED: Keep horizontal layout on mobile too */

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html-root">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bulls&Cows</title>
+    <title id="page-title">Bulls&Cows</title>
+    <meta name="description" id="page-description" content="Play Bulls and Cows number guessing game online">
     <link rel="stylesheet" href="styles.css">
     <script defer data-domain="bulls.yosola.co" src="https://plausible.io/js/script.js"></script>
 </head>
@@ -12,8 +13,11 @@
 <body>
     <div class="game">
     <header>
-        <h1>Welcome to my JS Game</h1>
-        <p class="subtitle">Bulls & Cows</p>
+        <div class="language-toggle">
+            <button id="lang-en" class="language-btn active" data-lang="en">🇺🇸</button>
+            <button id="lang-es" class="language-btn" data-lang="es">🇨🇴</button>
+        </div>
+        <h1 id="game-title">Bulls & Cows</h1>
     </header>
         <div class="container" id="number-container">
             <!-- Secret number boxes will be appended here -->
@@ -30,31 +34,28 @@
         <div class="message" id="message"></div>
         <div class="form-container">
             <form id="guess-form">
-                <input type="number" id="guess-input" placeholder="Enter your guess">
-                <button type="submit">Enter</button>
+                <input type="number" id="guess-input" placeholder="">
+                <button type="submit" id="submit-btn"></button>
             </form>
         </div>
 
         <div class="share-container" id="share-container" style="display: none;">
-            <h3>Share Your Result!</h3>
-            <button id="whatsapp-btn" class="share-button">📱 Share on WhatsApp</button>
-            <button id="mastodon-btn" class="share-button">🐘 Share on Mastodon</button>
-            <button id="copy-btn" class="share-button">📋 Copy to Clipboard</button>
+            <h3 id="share-title"></h3>
+            <button id="whatsapp-btn" class="share-button">📱 <span id="whatsapp-text"></span></button>
+            <button id="mastodon-btn" class="share-button">🐘 <span id="mastodon-text"></span></button>
+            <button id="copy-btn" class="share-button">📋 <span id="copy-text"></span></button>
         </div>
 
         <div class="new-game-container" id="new-game-container" style="display: none;">
-            <button id="new-game-btn" class="new-game-button">🎮 Start New Game</button>
+            <button id="new-game-btn" class="new-game-button">🎮 <span id="new-game-text"></span></button>
         </div>
 
         <div class="card">
             <div class="content">
-                <a href="#" id="help-link" class="help">How to play?</a>
+                <a href="#" id="help-link" class="help"></a>
                 <div class="instructions-back">
-                    <ol>
-                        <li>Enter a 4-digit number using 4 different digits (0-9, no duplicates) in the input box.</li>
-                        <li>Click "Submit" to guess the secret number.</li>
-                        <li>You'll get feedback: "bulls" for correct digits in the right place and "cows" for correct digits in the wrong place.</li>
-                        <li>You have 10 attempts to guess the number.</li>
+                    <ol id="instructions-list">
+                        <!-- Instructions will be populated by JavaScript -->
                     </ol>
                 </div>
             </div>

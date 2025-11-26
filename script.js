@@ -19,6 +19,11 @@
             copiedText: "✅ Copied!",
             mastodonPrompt: "Enter your Mastodon instance (e.g., mastodon.social):",
             
+            // Install banner translations
+            installBannerText: "📲 Play offline! Install this app",
+            installBannerBtn: "Install",
+            iosInstallInstructions: "To install: tap the Share button, then 'Add to Home Screen'",
+            
             // Turn counter messages
             readyToPlay: "Get ready to play!",
             attemptOf: "Attempt {0} of 10",
@@ -70,6 +75,11 @@
             copiedText: "✅ ¡Copiado!",
             mastodonPrompt: "Ingresa tu instancia de Mastodon (ej., mastodon.social):",
             
+            // Install banner translations
+            installBannerText: "📲 ¡Juega sin internet! Instala la app",
+            installBannerBtn: "Instalar",
+            iosInstallInstructions: "Para instalar: toca Compartir, luego 'Añadir a la pantalla de inicio'",
+            
             // Turn counter messages
             readyToPlay: "¡Prepárate para jugar!",
             attemptOf: "Intento {0} de 10",
@@ -114,30 +124,25 @@
     // Browser language detection
     function detectBrowserLanguage() {
         const browserLang = navigator.language || navigator.userLanguage;
-        // console.log("Browser language detected:", browserLang);
         
         // Check URL parameters first
         const urlParams = new URLSearchParams(window.location.search);
         const urlLang = urlParams.get('lang');
         if (urlLang && translations[urlLang]) {
-            // console.log("Language set from URL:", urlLang);
             return urlLang;
         }
         
         // Check localStorage
         const savedLang = localStorage.getItem('bullsAndCowsLanguage');
         if (savedLang && translations[savedLang]) {
-            // console.log("Language loaded from localStorage:", savedLang);
             return savedLang;
         }
         
         // Detect from browser
         if (browserLang.startsWith('es')) {
-            // console.log("Spanish detected from browser");
             return 'es';
         }
         
-        // console.log("Defaulting to English");
         return 'en';
     }
 
@@ -197,13 +202,11 @@
 
     function setLanguage(lang) {
         if (!translations[lang]) {
-            // console.error(`Language ${lang} not supported`);
             return;
         }
         
         currentLanguage = lang;
         localStorage.setItem('bullsAndCowsLanguage', lang);
-        // console.log("Language changed to:", lang);
         
         updateAllText();
         updateLanguageButtons();
@@ -211,7 +214,7 @@
     }
 
     function updateLanguageButtons() {
-        document.querySelectorAll('.language-btn').forEach(btn => {
+        document.querySelectorAll('.language-btn:not(.install-icon)').forEach(btn => {
             btn.classList.remove('active');
         });
         const activeBtn = document.getElementById(`lang-${currentLanguage}`);
@@ -245,6 +248,12 @@
         if (copyText) copyText.textContent = getText('copyText');
         if (newGameText) newGameText.textContent = getText('newGameText');
         
+        // Update install banner text
+        const installBannerText = document.getElementById('install-banner-text');
+        const installBannerBtn = document.getElementById('install-banner-btn');
+        if (installBannerText) installBannerText.textContent = getText('installBannerText');
+        if (installBannerBtn) installBannerBtn.textContent = getText('installBannerBtn');
+        
         // Update instructions
         const instructionsList = document.getElementById('instructions-list');
         if (instructionsList) {
@@ -266,7 +275,126 @@
         updateAllText();
         updateLanguageButtons();
         updateLanguageAttributes();
-        // console.log("Game initialized with language:", currentLanguage);
+    }
+
+    // --- PWA Install System ---
+    let deferredPrompt = null;
+    
+    function isIOS() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent);
+    }
+    
+    function isStandalone() {
+        return window.matchMedia('(display-mode: standalone)').matches || 
+               window.navigator.standalone === true;
+    }
+    
+    function shouldShowInstallUI() {
+        // Don't show if already installed
+        if (isStandalone()) return false;
+        
+        // Don't show if user dismissed it
+        if (localStorage.getItem('installDismissed') === 'true') return false;
+        
+        return true;
+    }
+    
+    function showInstallBanner() {
+        const banner = document.getElementById('install-banner');
+        if (banner && shouldShowInstallUI()) {
+            banner.style.display = 'flex';
+        }
+    }
+    
+    function hideInstallBanner() {
+        const banner = document.getElementById('install-banner');
+        if (banner) {
+            banner.style.display = 'none';
+        }
+    }
+    
+    function showInstallIcon() {
+        const icon = document.getElementById('install-icon');
+        if (icon && shouldShowInstallUI()) {
+            icon.style.display = 'flex';
+        }
+    }
+    
+    function hideInstallIcon() {
+        const icon = document.getElementById('install-icon');
+        if (icon) {
+            icon.style.display = 'none';
+        }
+    }
+    
+    function hideAllInstallUI() {
+        hideInstallBanner();
+        hideInstallIcon();
+    }
+    
+    async function triggerInstall() {
+        if (isIOS()) {
+            // iOS can't auto-install, show instructions
+            alert(getText('iosInstallInstructions'));
+            return;
+        }
+        
+        if (!deferredPrompt) return;
+        
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+            hideAllInstallUI();
+        }
+        
+        deferredPrompt = null;
+    }
+    
+    function dismissInstallBanner() {
+        localStorage.setItem('installDismissed', 'true');
+        hideInstallBanner();
+        // Keep icon visible for users who change their mind
+    }
+    
+    function setupPWAInstall() {
+        // Capture the install prompt (Android/Chrome)
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallBanner();
+            showInstallIcon();
+        });
+        
+        // Handle successful install
+        window.addEventListener('appinstalled', () => {
+            hideAllInstallUI();
+            deferredPrompt = null;
+        });
+        
+        // For iOS, show UI immediately since there's no beforeinstallprompt
+        if (isIOS() && shouldShowInstallUI()) {
+            showInstallBanner();
+            showInstallIcon();
+        }
+        
+        // Install banner button
+        const installBannerBtn = document.getElementById('install-banner-btn');
+        if (installBannerBtn) {
+            installBannerBtn.addEventListener('click', triggerInstall);
+        }
+        
+        // Install banner dismiss
+        const installBannerDismiss = document.getElementById('install-banner-dismiss');
+        if (installBannerDismiss) {
+            installBannerDismiss.addEventListener('click', dismissInstallBanner);
+        }
+        
+        // Install icon in header
+        const installIcon = document.getElementById('install-icon');
+        if (installIcon) {
+            installIcon.addEventListener('click', triggerInstall);
+        }
     }
 
     // --- Game Variables ---
@@ -276,11 +404,11 @@
     let numberBoxes = [];
     let gameEnded = false;
     let playerWon = false;
-    let gameHistory = []; // Store each guess and its detailed feedback
+    let gameHistory = [];
 
     // Initialize secret number
     function generateSecretNumber() {
-        const availableNumbers = [...gameNumbers]; // Create a copy
+        const availableNumbers = [...gameNumbers];
         secretNumbers = [];
         
         for (let i = 0; i < 4; i++) {
@@ -303,8 +431,8 @@
         const numberContainer = document.getElementById('number-container');
         if (!numberContainer) return;
         
-        numberContainer.innerHTML = ''; // Clear existing boxes
-        numberBoxes = []; // Reset array
+        numberContainer.innerHTML = '';
+        numberBoxes = [];
         
         secretNumbers.forEach(() => {
             const box = document.createElement('div');
@@ -508,8 +636,6 @@
         
         // Reset turn counter
         updateTurnCounter();
-        
-        // console.log("New game started");
     }
 
     // --- Copy share message to clipboard ---
@@ -600,8 +726,6 @@
 
                 turns++;
                 updateTurnCounter();
-                
-                // console.log(`Turn ${turns}: Player guessed ${guess}, secret is ${secretStr}`);
 
                 // Get detailed feedback for sharing
                 const detailedFeedback = checkDetailedFeedback(secretStr, guess);
@@ -634,8 +758,6 @@
                     
                     updateTurnCounter();
                     
-                    // console.log(`Player won in ${turns} attempts!`);
-                    
                     // Show share options
                     setTimeout(() => {
                         showShareOptions();
@@ -657,8 +779,6 @@
                     });
                     
                     updateTurnCounter();
-                    
-                    // console.log(`Player lost. Secret was: ${secretStr}`);
                     
                     // Show share options
                     setTimeout(() => {
@@ -772,8 +892,6 @@
 
     // --- Initialize game on page load ---
     function initializeGame() {
-        // console.log("Game initializing...");
-        
         // Initialize language system
         initializeLanguage();
         
@@ -787,15 +905,15 @@
         // Setup all event listeners
         setupEventListeners();
         
+        // Setup PWA install functionality
+        setupPWAInstall();
+        
         // Check if specific language was requested via URL
         const urlParams = new URLSearchParams(window.location.search);
         const urlLang = urlParams.get('lang');
         if (urlLang && translations[urlLang] && urlLang !== currentLanguage) {
-            // console.log("URL language parameter detected:", urlLang);
             setLanguage(urlLang);
         }
-        
-        // console.log("Game initialization complete");
     }
 
     // Wait for DOM to be ready

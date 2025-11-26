@@ -15,10 +15,21 @@
 
 <body>
     <div class="game">
+    
+    <!-- Install Banner -->
+    <div class="install-banner" id="install-banner" style="display: none;">
+        <span id="install-banner-text">📲 Play offline! Install this app</span>
+        <div class="install-banner-buttons">
+            <button id="install-banner-btn" class="install-banner-install">Install</button>
+            <button id="install-banner-dismiss" class="install-banner-close">✕</button>
+        </div>
+    </div>
+    
     <header>
         <div class="language-toggle">
             <button id="lang-en" class="language-btn active" data-lang="en">🇺🇸</button>
             <button id="lang-es" class="language-btn" data-lang="es">🇨🇴</button>
+            <button id="install-icon" class="language-btn install-icon" style="display: none;">📥</button>
         </div>
         <h1 id="game-title">Bulls & Cows</h1>
     </header>
@@ -26,7 +37,6 @@
             <!-- Secret number boxes will be appended here -->
         </div>
         
-        <!-- NEW: Turn counter -->
         <div class="turn-counter" id="turn-counter">
             Get ready to play!
         </div>

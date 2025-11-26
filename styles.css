@@ -49,7 +49,97 @@ header {
     position: relative;
 }
 
-/* NEW: Language Toggle Styles */
+/* Install Banner Styles */
+.install-banner {
+    background: linear-gradient(135deg, #38618C 0%, #4281A4 100%);
+    color: white;
+    padding: 0.8em 1em;
+    border-radius: 8px;
+    margin-bottom: 1em;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    box-shadow: 0 2px 8px rgba(56, 97, 140, 0.3);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#install-banner-text {
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.install-banner-buttons {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+.install-banner-install {
+    background-color: #FE938C;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+}
+
+.install-banner-install:hover {
+    background-color: #e07b75;
+}
+
+.install-banner-close {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background-color 0.2s;
+}
+
+.install-banner-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Install Icon in Header */
+.install-icon {
+    background-color: #28a745 !important;
+    border-color: #1e7e34 !important;
+}
+
+.install-icon:hover {
+    background-color: #218838 !important;
+}
+
+.install-icon.active {
+    background-color: #28a745 !important;
+    border-color: #1e7e34 !important;
+}
+
+/* Language Toggle Styles */
 .language-toggle {
     display: flex;
     justify-content: center;
@@ -440,6 +530,18 @@ button:disabled {
     
     header {
         margin-bottom: 1em;
+    }
+    
+    /* Mobile install banner */
+    .install-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 0.8em;
+    }
+    
+    #install-banner-text {
+        font-size: 0.9em;
+        margin-bottom: 0.3em;
     }
     
     /* Mobile language toggle adjustments */

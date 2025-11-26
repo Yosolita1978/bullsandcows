@@ -4,14 +4,6 @@ Beige #EBEBD3
 Lapiz Lazuli #38618C
 Dark Purple #3B1F2B
 Cerulean #4281A4
-
-*/
-/*
-Coral Pink #FE938C
-Beige #EBEBD3
-Lapiz Lazuli #38618C
-Dark Purple #3B1F2B
-Cerulean #4281A4
 */
 
 * {
@@ -124,19 +116,29 @@ header {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Install Icon in Header */
-.install-icon {
-    background-color: #28a745 !important;
-    border-color: #1e7e34 !important;
+/* Install Icon Button at Bottom */
+.install-icon-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 1em;
 }
 
-.install-icon:hover {
-    background-color: #218838 !important;
+.install-icon-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    font-size: 0.95em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
 }
 
-.install-icon.active {
-    background-color: #28a745 !important;
-    border-color: #1e7e34 !important;
+.install-icon-btn:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
 }
 
 /* Language Toggle Styles */
@@ -204,7 +206,7 @@ h1 {
     flex-wrap: wrap;
 }
 
-/* NEW: Turn counter - made smaller */
+/* Turn counter */
 .turn-counter {
     text-align: center;
     margin-bottom: 0.8em;
@@ -227,7 +229,6 @@ h1 {
     box-sizing: border-box;
 }
 
-/* CHANGED: Removed space-between for better natural spacing */
 .guess-block {
     margin: 0 0.5em 0.8em 0.5em;
     padding: 0.5em 0.8em;
@@ -239,7 +240,6 @@ h1 {
     width: calc(100% - 1em);
     box-sizing: border-box;
     min-width: 0;
-    /* Firefox mobile specific fixes */
     -moz-box-sizing: border-box;
     position: relative;
 }
@@ -251,7 +251,6 @@ h1 {
     flex-shrink: 0;
 }
 
-/* CHANGED: More compact feedback to ensure single row layout */
 .feedback-block {
     font-size: 0.75em;
     font-weight: bold;
@@ -360,7 +359,7 @@ button {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-height: 44px; /* Touch-friendly minimum */
+    min-height: 44px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -465,22 +464,20 @@ button:disabled {
     transform: translateY(0);
 }
 
-/* WhatsApp button specific styling */
 #whatsapp-btn {
-    background-color: #25D366; /* WhatsApp green */
+    background-color: #25D366;
 }
 
 #whatsapp-btn:hover:not(:disabled) {
-    background-color: #1DA851; /* Darker WhatsApp green on hover */
+    background-color: #1DA851;
 }
 
-/* Copy button specific styling */
 #copy-btn {
-    background-color: #6c757d; /* Gray for copy */
+    background-color: #6c757d;
 }
 
 #copy-btn:hover:not(:disabled) {
-    background-color: #5a6268; /* Darker gray on hover */
+    background-color: #5a6268;
 }
 
 /* New Game button container */
@@ -491,7 +488,7 @@ button:disabled {
 }
 
 .new-game-button {
-    background-color: #28a745; /* Green for new game */
+    background-color: #28a745;
     color: white;
     padding: 12px 24px;
     font-size: 1.1em;
@@ -507,7 +504,7 @@ button:disabled {
 }
 
 .new-game-button:hover:not(:disabled) {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838;
     transform: translateY(-1px);
 }
 
@@ -620,7 +617,6 @@ button:disabled {
         padding: 12px;
     }
     
-    /* CHANGED: Keep horizontal layout on mobile too */
     .guess-block {
         flex-direction: row;
         gap: 0.5em;
@@ -634,6 +630,10 @@ button:disabled {
     
     #game-container {
         max-height: 250px;
+    }
+    
+    .install-icon-btn {
+        width: 100%;
     }
 }
 
@@ -688,7 +688,6 @@ button:disabled {
         font-size: 0.7em;
     }
     
-    /* Very small screen language buttons */
     .language-btn {
         width: 35px;
         height: 35px;

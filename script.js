@@ -19,9 +19,10 @@
             copiedText: "✅ Copied!",
             mastodonPrompt: "Enter your Mastodon instance (e.g., mastodon.social):",
             
-            // Install banner translations
+            // Install translations
             installBannerText: "📲 Play offline! Install this app",
             installBannerBtn: "Install",
+            installIconText: "Install App",
             iosInstallInstructions: "To install: tap the Share button, then 'Add to Home Screen'",
             
             // Turn counter messages
@@ -75,9 +76,10 @@
             copiedText: "✅ ¡Copiado!",
             mastodonPrompt: "Ingresa tu instancia de Mastodon (ej., mastodon.social):",
             
-            // Install banner translations
+            // Install translations
             installBannerText: "📲 ¡Juega sin internet! Instala la app",
             installBannerBtn: "Instalar",
+            installIconText: "Instalar App",
             iosInstallInstructions: "Para instalar: toca Compartir, luego 'Añadir a la pantalla de inicio'",
             
             // Turn counter messages
@@ -155,7 +157,6 @@
             text = text[k];
             if (!text) {
                 console.warn(`Translation key not found: ${key} for language: ${currentLanguage}`);
-                // Fallback to English if Spanish translation missing
                 if (currentLanguage !== 'en') {
                     let fallbackText = translations['en'];
                     for (const k2 of keys) {
@@ -163,11 +164,10 @@
                         if (!fallbackText) break;
                     }
                     if (fallbackText) {
-                        console.warn(`Using English fallback for: ${key}`);
                         return fallbackText;
                     }
                 }
-                return key; // Return key as last resort
+                return key;
             }
         }
         
@@ -181,19 +181,16 @@
     }
 
     function updateLanguageAttributes() {
-        // Update HTML lang attribute for accessibility and SEO
         const htmlRoot = document.getElementById('html-root');
         if (htmlRoot) {
             htmlRoot.lang = currentLanguage;
         }
         
-        // Update page title
         const pageTitle = document.getElementById('page-title');
         if (pageTitle) {
             pageTitle.textContent = getText('pageTitle');
         }
         
-        // Update meta description
         const pageDescription = document.getElementById('page-description');
         if (pageDescription) {
             pageDescription.content = getText('metaDescription');
@@ -214,7 +211,7 @@
     }
 
     function updateLanguageButtons() {
-        document.querySelectorAll('.language-btn:not(.install-icon)').forEach(btn => {
+        document.querySelectorAll('.language-btn').forEach(btn => {
             btn.classList.remove('active');
         });
         const activeBtn = document.getElementById(`lang-${currentLanguage}`);
@@ -248,11 +245,14 @@
         if (copyText) copyText.textContent = getText('copyText');
         if (newGameText) newGameText.textContent = getText('newGameText');
         
-        // Update install banner text
+        // Update install banner and button text
         const installBannerText = document.getElementById('install-banner-text');
         const installBannerBtn = document.getElementById('install-banner-btn');
+        const installIconText = document.getElementById('install-icon-text');
+        
         if (installBannerText) installBannerText.textContent = getText('installBannerText');
         if (installBannerBtn) installBannerBtn.textContent = getText('installBannerBtn');
+        if (installIconText) installIconText.textContent = getText('installIconText');
         
         // Update instructions
         const instructionsList = document.getElementById('instructions-list');
@@ -266,7 +266,6 @@
             });
         }
         
-        // Update turn counter
         updateTurnCounter();
     }
 
@@ -290,12 +289,8 @@
     }
     
     function shouldShowInstallUI() {
-        // Don't show if already installed
         if (isStandalone()) return false;
-        
-        // Don't show if user dismissed it
         if (localStorage.getItem('installDismissed') === 'true') return false;
-        
         return true;
     }
     
@@ -314,16 +309,16 @@
     }
     
     function showInstallIcon() {
-        const icon = document.getElementById('install-icon');
-        if (icon && shouldShowInstallUI()) {
-            icon.style.display = 'flex';
+        const container = document.getElementById('install-icon-container');
+        if (container && shouldShowInstallUI()) {
+            container.style.display = 'block';
         }
     }
     
     function hideInstallIcon() {
-        const icon = document.getElementById('install-icon');
-        if (icon) {
-            icon.style.display = 'none';
+        const container = document.getElementById('install-icon-container');
+        if (container) {
+            container.style.display = 'none';
         }
     }
     
@@ -334,7 +329,6 @@
     
     async function triggerInstall() {
         if (isIOS()) {
-            // iOS can't auto-install, show instructions
             alert(getText('iosInstallInstructions'));
             return;
         }
@@ -354,11 +348,9 @@
     function dismissInstallBanner() {
         localStorage.setItem('installDismissed', 'true');
         hideInstallBanner();
-        // Keep icon visible for users who change their mind
     }
     
     function setupPWAInstall() {
-        // Capture the install prompt (Android/Chrome)
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -366,31 +358,26 @@
             showInstallIcon();
         });
         
-        // Handle successful install
         window.addEventListener('appinstalled', () => {
             hideAllInstallUI();
             deferredPrompt = null;
         });
         
-        // For iOS, show UI immediately since there's no beforeinstallprompt
         if (isIOS() && shouldShowInstallUI()) {
             showInstallBanner();
             showInstallIcon();
         }
         
-        // Install banner button
         const installBannerBtn = document.getElementById('install-banner-btn');
         if (installBannerBtn) {
             installBannerBtn.addEventListener('click', triggerInstall);
         }
         
-        // Install banner dismiss
         const installBannerDismiss = document.getElementById('install-banner-dismiss');
         if (installBannerDismiss) {
             installBannerDismiss.addEventListener('click', dismissInstallBanner);
         }
         
-        // Install icon in header
         const installIcon = document.getElementById('install-icon');
         if (installIcon) {
             installIcon.addEventListener('click', triggerInstall);
@@ -406,7 +393,6 @@
     let playerWon = false;
     let gameHistory = [];
 
-    // Initialize secret number
     function generateSecretNumber() {
         const availableNumbers = [...gameNumbers];
         secretNumbers = [];
@@ -419,14 +405,12 @@
         console.log(secretNumbers.join(""));
     }
 
-    // --- Helper to check for duplicate digits ---
     function hasDuplicateDigits(numberString) {
         const digits = numberString.split('');
         const uniqueDigits = new Set(digits);
         return digits.length !== uniqueDigits.size;
     }
 
-    // --- Render hidden secret number boxes ---
     function renderSecretNumberBoxes() {
         const numberContainer = document.getElementById('number-container');
         if (!numberContainer) return;
@@ -443,7 +427,6 @@
         });
     }
 
-    // --- Update turn counter ---
     function updateTurnCounter() {
         const turnCounter = document.getElementById('turn-counter');
         if (!turnCounter) return;
@@ -460,7 +443,6 @@
         }
     }
 
-    // --- Enhanced feedback analysis for sharing ---
     function checkDetailedFeedback(secret, input) {
         const feedback = [];
         const secretArr = secret.split('');
@@ -468,7 +450,6 @@
         const usedSecretIndices = new Set();
         const usedInputIndices = new Set();
         
-        // First pass: find bulls (correct position)
         for (let i = 0; i < inputArr.length; i++) {
             if (secretArr[i] === inputArr[i]) {
                 feedback[i] = 'bull';
@@ -477,7 +458,6 @@
             }
         }
         
-        // Second pass: find cows (correct digit, wrong position)
         for (let i = 0; i < inputArr.length; i++) {
             if (!usedInputIndices.has(i)) {
                 for (let j = 0; j < secretArr.length; j++) {
@@ -491,7 +471,6 @@
             }
         }
         
-        // Third pass: mark remaining as misses
         for (let i = 0; i < inputArr.length; i++) {
             if (!feedback[i]) {
                 feedback[i] = 'miss';
@@ -501,7 +480,6 @@
         return feedback;
     }
 
-    // --- Bulls helper ---
     function checkBulls(secret, input) {
         let bulls = 0;
         for (let i = 0; i < secret.length; i++) {
@@ -510,7 +488,6 @@
         return bulls;
     }
 
-    // --- Cows helper ---
     function checkCows(secret, input) {
         let cows = 0;
         const tempSecret = [...secret];
@@ -524,7 +501,6 @@
         return cows;
     }
 
-    // --- Generate emoji grid from game history ---
     function generateEmojiGrid() {
         let grid = '';
         
@@ -549,7 +525,6 @@
         return grid.trim();
     }
 
-    // --- Share functionality ---
     function generateShareMessage() {
         const grid = generateEmojiGrid();
         const attemptsText = playerWon ? `${turns}/10` : 'X/10';
@@ -584,7 +559,6 @@
         if (newGameContainer) newGameContainer.style.display = 'block';
     }
 
-    // --- Auto-scroll to bottom of game container ---
     function scrollToLatestGuess() {
         const gameContainer = document.getElementById('game-container');
         if (gameContainer) {
@@ -592,18 +566,14 @@
         }
     }
 
-    // --- Start a new game ---
     function startNewGame() {
-        // Reset game state
         turns = 0;
         gameEnded = false;
         playerWon = false;
         gameHistory = [];
         
-        // Generate new secret number
         generateSecretNumber();
         
-        // Reset UI
         const input = document.getElementById('guess-input');
         const message = document.getElementById('message');
         const gameContainer = document.getElementById('game-container');
@@ -627,24 +597,20 @@
         if (shareContainer) shareContainer.style.display = 'none';
         if (newGameContainer) newGameContainer.style.display = 'none';
         
-        // Reset secret number boxes
         numberBoxes.forEach((box, i) => {
             box.textContent = '*';
             box.className = 'number-box';
             box.style.backgroundColor = '';
         });
         
-        // Reset turn counter
         updateTurnCounter();
     }
 
-    // --- Copy share message to clipboard ---
     async function copyToClipboard() {
         try {
             const shareText = generateShareMessage();
             await navigator.clipboard.writeText(shareText);
             
-            // Provide feedback
             const copyBtn = document.getElementById('copy-btn');
             if (copyBtn) {
                 const originalText = copyBtn.innerHTML;
@@ -658,7 +624,6 @@
             }
         } catch (err) {
             console.error('Failed to copy to clipboard:', err);
-            // Fallback for older browsers
             const shareText = generateShareMessage();
             const textArea = document.createElement('textarea');
             textArea.value = shareText;
@@ -667,7 +632,6 @@
             document.execCommand('copy');
             document.body.removeChild(textArea);
             
-            // Provide feedback
             const copyBtn = document.getElementById('copy-btn');
             if (copyBtn) {
                 const originalText = copyBtn.innerHTML;
@@ -682,9 +646,7 @@
         }
     }
 
-    // --- Event Listeners Setup ---
     function setupEventListeners() {
-        // Limit input to 4 digits
         const guessInput = document.getElementById('guess-input');
         if (guessInput) {
             guessInput.addEventListener('input', (e) => {
@@ -692,7 +654,6 @@
             });
         }
 
-        // Form submission logic
         const guessForm = document.getElementById('guess-form');
         if (guessForm) {
             guessForm.addEventListener('submit', function (e) {
@@ -704,7 +665,6 @@
                 
                 const guess = input.value.trim();
 
-                // Clear message on every submit
                 message.textContent = "";
                 message.className = "message";
 
@@ -714,7 +674,6 @@
                     return;
                 }
                 
-                // Check for duplicate digits
                 if (hasDuplicateDigits(guess)) {
                     message.textContent = getText('noDuplicates');
                     message.classList.add("error");
@@ -727,14 +686,10 @@
                 turns++;
                 updateTurnCounter();
 
-                // Get detailed feedback for sharing
                 const detailedFeedback = checkDetailedFeedback(secretStr, guess);
-                
-                // Calculate bulls and cows for display
                 const bulls = checkBulls(secretStr, guess);
                 const cows = checkCows(secretStr, guess);
 
-                // Store this guess in game history for sharing
                 gameHistory.push({
                     guess: guess,
                     feedback: detailedFeedback,
@@ -743,7 +698,6 @@
                     turn: turns
                 });
 
-                // Winning condition
                 if (guess === secretStr) {
                     input.disabled = true;
                     gameEnded = true;
@@ -758,7 +712,6 @@
                     
                     updateTurnCounter();
                     
-                    // Show share options
                     setTimeout(() => {
                         showShareOptions();
                     }, 1000);
@@ -772,7 +725,6 @@
                     message.classList.add("error");
                     input.disabled = true;
                     
-                    // Reveal the secret number
                     numberBoxes.forEach((box, i) => {
                         box.textContent = secretNumbers[i];
                         box.style.backgroundColor = '#FE938C';
@@ -780,13 +732,11 @@
                     
                     updateTurnCounter();
                     
-                    // Show share options
                     setTimeout(() => {
                         showShareOptions();
                     }, 1000);
                 }
 
-                // Create guess row with feedback
                 const gameContainer = document.getElementById('game-container');
                 if (gameContainer) {
                     const guessBlock = document.createElement('div');
@@ -810,7 +760,6 @@
                     guessBlock.appendChild(feedback);
                     gameContainer.appendChild(guessBlock);
 
-                    // Auto-scroll to show the latest guess
                     setTimeout(() => {
                         scrollToLatestGuess();
                     }, 100);
@@ -820,7 +769,6 @@
             });
         }
 
-        // Toggle help instructions
         const helpLink = document.getElementById('help-link');
         if (helpLink) {
             helpLink.addEventListener('click', function (e) {
@@ -832,13 +780,11 @@
             });
         }
 
-        // Share functionality event listeners
         const whatsappBtn = document.getElementById('whatsapp-btn');
         if (whatsappBtn) {
             whatsappBtn.addEventListener('click', () => {
                 const shareText = generateShareMessage();
                 const encodedText = encodeURIComponent(shareText);
-                
                 const whatsappUrl = `https://wa.me/?text=${encodedText}`;
                 window.open(whatsappUrl, '_blank');
             });
@@ -849,17 +795,13 @@
             mastodonBtn.addEventListener('click', () => {
                 const shareText = generateShareMessage();
                 const encodedText = encodeURIComponent(shareText);
-                
-                // Prompt user for their Mastodon instance with translated text
                 const instance = prompt(getText('mastodonPrompt')) || 'mastodon.social';
                 const cleanInstance = instance.replace(/^https?:\/\//, '').replace(/\/$/, '');
-                
                 const mastodonUrl = `https://${cleanInstance}/share?text=${encodedText}`;
                 window.open(mastodonUrl, '_blank');
             });
         }
 
-        // Language toggle event listeners
         const langEnBtn = document.getElementById('lang-en');
         const langEsBtn = document.getElementById('lang-es');
         
@@ -877,7 +819,6 @@
             });
         }
 
-        // Copy and New Game event listeners
         const copyBtn = document.getElementById('copy-btn');
         const newGameBtn = document.getElementById('new-game-btn');
         
@@ -890,25 +831,14 @@
         }
     }
 
-    // --- Initialize game on page load ---
     function initializeGame() {
-        // Initialize language system
         initializeLanguage();
-        
-        // Generate secret number and render boxes
         generateSecretNumber();
         renderSecretNumberBoxes();
-        
-        // Update turn counter
         updateTurnCounter();
-        
-        // Setup all event listeners
         setupEventListeners();
-        
-        // Setup PWA install functionality
         setupPWAInstall();
         
-        // Check if specific language was requested via URL
         const urlParams = new URLSearchParams(window.location.search);
         const urlLang = urlParams.get('lang');
         if (urlLang && translations[urlLang] && urlLang !== currentLanguage) {
@@ -916,7 +846,6 @@
         }
     }
 
-    // Wait for DOM to be ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initializeGame);
     } else {

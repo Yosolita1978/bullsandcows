@@ -22,7 +22,6 @@
             // Install translations
             installBannerText: "📲 Play offline! Install this app",
             installBannerBtn: "Install",
-            installIconText: "Install App",
             iosInstallInstructions: "To install: tap the Share button, then 'Add to Home Screen'",
             
             // Turn counter messages
@@ -79,7 +78,6 @@
             // Install translations
             installBannerText: "📲 ¡Juega sin internet! Instala la app",
             installBannerBtn: "Instalar",
-            installIconText: "Instalar App",
             iosInstallInstructions: "Para instalar: toca Compartir, luego 'Añadir a la pantalla de inicio'",
             
             // Turn counter messages
@@ -211,9 +209,12 @@
     }
 
     function updateLanguageButtons() {
-        document.querySelectorAll('.language-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
+        // Only remove active from language buttons, not install icon
+        const langEn = document.getElementById('lang-en');
+        const langEs = document.getElementById('lang-es');
+        if (langEn) langEn.classList.remove('active');
+        if (langEs) langEs.classList.remove('active');
+        
         const activeBtn = document.getElementById(`lang-${currentLanguage}`);
         if (activeBtn) {
             activeBtn.classList.add('active');
@@ -245,14 +246,12 @@
         if (copyText) copyText.textContent = getText('copyText');
         if (newGameText) newGameText.textContent = getText('newGameText');
         
-        // Update install banner and button text
+        // Update install banner text
         const installBannerText = document.getElementById('install-banner-text');
         const installBannerBtn = document.getElementById('install-banner-btn');
-        const installIconText = document.getElementById('install-icon-text');
         
         if (installBannerText) installBannerText.textContent = getText('installBannerText');
         if (installBannerBtn) installBannerBtn.textContent = getText('installBannerBtn');
-        if (installIconText) installIconText.textContent = getText('installIconText');
         
         // Update instructions
         const instructionsList = document.getElementById('instructions-list');
@@ -302,17 +301,10 @@
         }
     }
     
-    function showInstallIcon() {
-        const container = document.getElementById('install-icon-container');
-        if (container && !isStandalone()) {
-            container.style.display = 'block';
-        }
-    }
-    
     function hideInstallIcon() {
-        const container = document.getElementById('install-icon-container');
-        if (container) {
-            container.style.display = 'none';
+        const icon = document.getElementById('install-icon');
+        if (icon) {
+            icon.style.display = 'none';
         }
     }
     
@@ -321,13 +313,24 @@
         hideInstallIcon();
     }
     
+    // Track event in Plausible
+    function trackEvent(eventName) {
+        if (window.plausible) {
+            window.plausible(eventName);
+        }
+    }
+    
     async function triggerInstall() {
+        // Track install button click
+        trackEvent('Install Button Click');
+        
         if (isIOS()) {
             alert(getText('iosInstallInstructions'));
             return;
         }
         
         if (!deferredPrompt) {
+            // PWA not ready, show manual instructions
             alert(getText('iosInstallInstructions'));
             return;
         }
@@ -347,34 +350,49 @@
     }
     
     function setupPWAInstall() {
+        // Capture the install prompt (Android/Chrome)
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
+            showInstallBanner();
         });
         
+        // Handle successful install - track in Plausible
         window.addEventListener('appinstalled', () => {
             hideAllInstallUI();
             deferredPrompt = null;
+            
+            // Track successful install in Plausible
+            trackEvent('PWA Install');
         });
         
+        // If already installed as standalone, hide install UI
+        if (isStandalone()) {
+            hideAllInstallUI();
+        }
+        
+        // Install banner button
         const installBannerBtn = document.getElementById('install-banner-btn');
         if (installBannerBtn) {
             installBannerBtn.addEventListener('click', triggerInstall);
         }
         
+        // Install banner dismiss
         const installBannerDismiss = document.getElementById('install-banner-dismiss');
         if (installBannerDismiss) {
             installBannerDismiss.addEventListener('click', dismissInstallBanner);
         }
         
+        // Install icon in header (always visible)
         const installIcon = document.getElementById('install-icon');
         if (installIcon) {
             installIcon.addEventListener('click', triggerInstall);
         }
         
-        // Always show install UI (hidden automatically if already installed as standalone)
-        showInstallBanner();
-        showInstallIcon();
+        // Show banner for iOS users too
+        if (isIOS() && !isStandalone()) {
+            showInstallBanner();
+        }
     }
 
     // --- Game Variables ---

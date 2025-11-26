@@ -116,31 +116,6 @@ header {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Install Icon Button at Bottom */
-.install-icon-container {
-    width: 100%;
-    text-align: center;
-    margin-top: 1em;
-}
-
-.install-icon-btn {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    font-size: 0.95em;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-}
-
-.install-icon-btn:hover {
-    background-color: #218838;
-    transform: translateY(-1px);
-}
-
 /* Language Toggle Styles */
 .language-toggle {
     display: flex;
@@ -181,6 +156,17 @@ header {
 .language-btn.active:hover {
     background-color: #FE938C;
     transform: scale(1.1) translateY(-1px);
+}
+
+/* Install Icon in Header */
+.install-icon {
+    background-color: #28a745 !important;
+    border-color: #1e7e34 !important;
+}
+
+.install-icon:hover {
+    background-color: #218838 !important;
+    transform: translateY(-2px);
 }
 
 h1 {
@@ -630,10 +616,6 @@ button:disabled {
     
     #game-container {
         max-height: 250px;
-    }
-    
-    .install-icon-btn {
-        width: 100%;
     }
 }
 

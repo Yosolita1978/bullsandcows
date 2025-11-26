@@ -1,4 +1,4 @@
-const CACHE_NAME = 'Bulls-and-Cows-v2';
+const CACHE_NAME = 'Bulls-and-Cows-v3';
 
 const FILES_TO_CACHE = [
   '/',

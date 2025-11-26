@@ -23,6 +23,7 @@
             installBannerText: "📲 Play offline! Install this app",
             installBannerBtn: "Install",
             iosInstallInstructions: "To install: tap the Share button, then 'Add to Home Screen'",
+            androidInstallInstructions: "To install: tap the browser menu (⋮), then 'Add to Home Screen' or 'Install App'",
             
             // Turn counter messages
             readyToPlay: "Get ready to play!",
@@ -79,6 +80,7 @@
             installBannerText: "📲 ¡Juega sin internet! Instala la app",
             installBannerBtn: "Instalar",
             iosInstallInstructions: "Para instalar: toca Compartir, luego 'Añadir a la pantalla de inicio'",
+            androidInstallInstructions: "Para instalar: toca el menú del navegador (⋮), luego 'Añadir a la pantalla de inicio' o 'Instalar app'",
             
             // Turn counter messages
             readyToPlay: "¡Prepárate para jugar!",
@@ -282,6 +284,10 @@
         return /iPad|iPhone|iPod/.test(navigator.userAgent);
     }
     
+    function isAndroid() {
+        return /Android/.test(navigator.userAgent);
+    }
+    
     function isStandalone() {
         return window.matchMedia('(display-mode: standalone)').matches || 
                window.navigator.standalone === true;
@@ -301,12 +307,12 @@
         }
     }
     
-    // function hideInstallIcon() {
-    //     const icon = document.getElementById('install-icon');
-    //     if (icon) {
-    //         icon.style.display = 'none';
-    //     }
-    // }
+    function hideInstallIcon() {
+        const icon = document.getElementById('install-icon');
+        if (icon) {
+            icon.style.display = 'none';
+        }
+    }
     
     function hideAllInstallUI() {
         hideInstallBanner();
@@ -324,25 +330,28 @@
         // Track install button click
         trackEvent('Install Button Click');
         
+        // If we have the deferred prompt, use it (best case)
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                hideAllInstallUI();
+            }
+            
+            deferredPrompt = null;
+            return;
+        }
+        
+        // No deferred prompt available - show manual instructions
         if (isIOS()) {
             alert(getText('iosInstallInstructions'));
-            return;
+        } else if (isAndroid()) {
+            alert(getText('androidInstallInstructions'));
+        } else {
+            // Desktop or other
+            alert(getText('androidInstallInstructions'));
         }
-        
-        if (!deferredPrompt) {
-            // PWA not ready, show manual instructions
-            alert(getText('iosInstallInstructions'));
-            return;
-        }
-        
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        
-        if (outcome === 'accepted') {
-            hideAllInstallUI();
-        }
-        
-        deferredPrompt = null;
     }
     
     function dismissInstallBanner() {
@@ -355,6 +364,7 @@
             e.preventDefault();
             deferredPrompt = e;
             showInstallBanner();
+            console.log('PWA: beforeinstallprompt fired, install ready!');
         });
         
         // Handle successful install - track in Plausible
@@ -364,11 +374,13 @@
             
             // Track successful install in Plausible
             trackEvent('PWA Install');
+            console.log('PWA: App installed successfully!');
         });
         
         // If already installed as standalone, hide install UI
         if (isStandalone()) {
             hideAllInstallUI();
+            return;
         }
         
         // Install banner button
@@ -389,8 +401,8 @@
             installIcon.addEventListener('click', triggerInstall);
         }
         
-        // Show banner for iOS users too
-        if (isIOS() && !isStandalone()) {
+        // Show banner for iOS users (they never get beforeinstallprompt)
+        if (isIOS()) {
             showInstallBanner();
         }
     }

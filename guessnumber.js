@@ -48,3 +48,5 @@ guessNumber();
 // attempt 1 - give a 5 number or try do letter - fails still rest attempts
 // give half righ number [6832]  A fail attempt 2
 // give the right number [6804]  A win - we won
+
+// guess two things - 

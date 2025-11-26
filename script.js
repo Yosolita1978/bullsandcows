@@ -288,15 +288,9 @@
                window.navigator.standalone === true;
     }
     
-    function shouldShowInstallUI() {
-        // if (isStandalone()) return false;
-        // if (localStorage.getItem('installDismissed') === 'true') return false;
-        return true;
-    }
-    
     function showInstallBanner() {
         const banner = document.getElementById('install-banner');
-        if (banner && shouldShowInstallUI()) {
+        if (banner && !isStandalone()) {
             banner.style.display = 'flex';
         }
     }
@@ -310,7 +304,7 @@
     
     function showInstallIcon() {
         const container = document.getElementById('install-icon-container');
-        if (container && shouldShowInstallUI()) {
+        if (container && !isStandalone()) {
             container.style.display = 'block';
         }
     }
@@ -333,7 +327,10 @@
             return;
         }
         
-        if (!deferredPrompt) return;
+        if (!deferredPrompt) {
+            alert(getText('iosInstallInstructions'));
+            return;
+        }
         
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
@@ -346,7 +343,6 @@
     }
     
     function dismissInstallBanner() {
-        localStorage.setItem('installDismissed', 'true');
         hideInstallBanner();
     }
     
@@ -354,19 +350,12 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            showInstallBanner();
-            showInstallIcon();
         });
         
         window.addEventListener('appinstalled', () => {
             hideAllInstallUI();
             deferredPrompt = null;
         });
-        
-        if (isIOS() && shouldShowInstallUI()) {
-            showInstallBanner();
-            showInstallIcon();
-        }
         
         const installBannerBtn = document.getElementById('install-banner-btn');
         if (installBannerBtn) {
@@ -382,6 +371,10 @@
         if (installIcon) {
             installIcon.addEventListener('click', triggerInstall);
         }
+        
+        // Always show install UI (hidden automatically if already installed as standalone)
+        showInstallBanner();
+        showInstallIcon();
     }
 
     // --- Game Variables ---

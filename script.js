@@ -289,8 +289,8 @@
     }
     
     function shouldShowInstallUI() {
-        if (isStandalone()) return false;
-        if (localStorage.getItem('installDismissed') === 'true') return false;
+        // if (isStandalone()) return false;
+        // if (localStorage.getItem('installDismissed') === 'true') return false;
         return true;
     }
     

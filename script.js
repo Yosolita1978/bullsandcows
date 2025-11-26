@@ -301,12 +301,12 @@
         }
     }
     
-    function hideInstallIcon() {
-        const icon = document.getElementById('install-icon');
-        if (icon) {
-            icon.style.display = 'none';
-        }
-    }
+    // function hideInstallIcon() {
+    //     const icon = document.getElementById('install-icon');
+    //     if (icon) {
+    //         icon.style.display = 'none';
+    //     }
+    // }
     
     function hideAllInstallUI() {
         hideInstallBanner();

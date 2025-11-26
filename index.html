@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4281A4">
     <title id="page-title">Bulls&Cows</title>
     <meta name="description" id="page-description" content="Play Bulls and Cows number guessing game online">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="stylesheet" href="styles.css">
     <script defer data-domain="bulls.yosola.co" src="https://plausible.io/js/script.js"></script>
 </head>
@@ -62,6 +65,11 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js');
+        }
+    </script>
 </body>
 
 </html>

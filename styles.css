@@ -708,3 +708,35 @@ button:disabled {
         }
     }
 }
+
+/* Footer */
+.game-footer {
+    margin-top: 1.5em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(59, 31, 43, 0.2);
+    text-align: center;
+    width: 100%;
+}
+
+.game-footer a {
+    color: #4281A4;
+    text-decoration: none;
+    font-size: 0.85em;
+    transition: color 0.2s;
+}
+
+.game-footer a:hover {
+    color: #3B1F2B;
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .game-footer {
+        margin-top: 1em;
+        padding-top: 0.8em;
+    }
+    
+    .game-footer a {
+        font-size: 0.8em;
+    }
+}

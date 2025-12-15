@@ -570,7 +570,7 @@
             message += getText('shareDoBreater') + '\n\n';
         }
         
-        message += 'https://bulls.yosola.co';
+        message += 'https://www.picasyfijas.com';
         
         return message;
     }

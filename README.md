@@ -4,6 +4,8 @@
 
 A **fully bilingual** implementation of the classic Bulls and Cows number guessing game, built with vanilla JavaScript, HTML, and CSS. Supports both English and Spanish with automatic language detection and cultural adaptations.
 
+🎮 **Play now:** [https://www.picasyfijas.com](https://www.picasyfijas.com) | **Jugar ahora:** [https://www.picasyfijas.com/?lang=es](https://www.picasyfijas.com/?lang=es)
+
 ## 🌍 Language Support
 
 This game is available in two languages:
@@ -70,8 +72,8 @@ The game continues until you guess correctly or run out of attempts!
 ### Installation
 1. **Clone this repository**
    ```bash
-   git clone [your-repo-url]
-   cd bulls-and-cows-game
+   git clone https://github.com/Yosolita1978/BullsAndCows.git
+   cd BullsAndCows
    ```
 
 2. **Open in browser**
@@ -83,8 +85,8 @@ The game continues until you guess correctly or run out of attempts!
    ```
 
 3. **Or visit online**
-   - Play directly at: `https://bulls.yosola.co`
-   - Spanish version: `https://bulls.yosola.co?lang=es`
+   - Play directly at: [https://www.picasyfijas.com](https://www.picasyfijas.com)
+   - Spanish version: [https://www.picasyfijas.com/?lang=es](https://www.picasyfijas.com/?lang=es)
 
 ## 🎮 How to Play
 
@@ -120,7 +122,7 @@ Bulls & Cows 4/10
 🐂🐂🐂🐂
 
 Can you beat my score?
-https://bulls.yosola.co
+https://www.picasyfijas.com
 ```
 
 ## 🛠️ Technical Implementation
@@ -130,6 +132,10 @@ https://bulls.yosola.co
 ├── index.html      # Main HTML structure with language toggles
 ├── styles.css      # Responsive CSS with mobile optimization
 ├── script.js       # Complete game logic with internationalization
+├── sw.js           # Service worker for PWA offline support
+├── manifest.json   # PWA manifest
+├── robots.txt      # SEO crawling rules
+├── sitemap.xml     # SEO sitemap
 └── README.md       # This documentation
 ```
 
@@ -178,7 +184,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Cristina Rodriguez** - Full Stack Developer & Technical Educator
 
-3+ years of experience in tech mentorship, software engineering, technical workshops, and explaining technical concepts to beginners. 20+ years of experience in project management, communications, content management, and content creation. 
+3+ years of experience in tech mentorship, software engineering, technical workshops, and explaining technical concepts to beginners. 20+ years of experience in project management, communications, content management, and content creation.
+
+**Portfolio:** [https://www.yosola.co](https://www.yosola.co)
 
 **Expertise:**
 - ✅ Bilingual web applications
@@ -197,4 +205,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Play now:** [https://bulls.yosola.co](https://bulls.yosola.co) | **Jugar ahora:** [https://bulls.yosola.co?lang=es](https://bulls.yosola.co?lang=es)
+🎮 **Play now:** [https://www.picasyfijas.com](https://www.picasyfijas.com) | **Jugar ahora:** [https://www.picasyfijas.com/?lang=es](https://www.picasyfijas.com/?lang=es)

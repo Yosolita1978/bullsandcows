@@ -5,7 +5,7 @@
     // --- Language System ---
     const translations = {
         en: {
-            gameTitle: "Bulls & Cows",
+            gameTitle: "Bulls & Cows - Also known as Picas y Fijas",
             pageTitle: "Bulls & Cows - Number Guessing Game",
             metaDescription: "Play Bulls and Cows number guessing game online. Guess the 4-digit secret number!",
             submitBtn: "Enter",
@@ -62,7 +62,7 @@
             sharePlayedGame: "I just played Bulls & Cows!"
         },
         es: {
-            gameTitle: "Picas y Fijas",
+            gameTitle: "Picas y Fijas - También conocido como Bulls and Cows",
             pageTitle: "Picas y Fijas - Juego de Adivinanza de Números",
             metaDescription: "Juega Picas y Fijas en línea. ¡Adivina el número secreto de 4 dígitos!",
             submitBtn: "Enviar",

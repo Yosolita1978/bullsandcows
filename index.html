@@ -5,38 +5,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#4281A4">
-    <title id="page-title">Bulls&Cows</title>
-    <meta name="description" id="page-description" content="Play Bulls and Cows number guessing game online">
+    
+    <!-- Primary SEO -->
+    <title id="page-title">Picas y Fijas - Bulls & Cows | Free Online Number Guessing Game</title>
+    <meta name="description" id="page-description" content="Play Picas y Fijas (Bulls and Cows) free online. Guess the secret 4-digit number in 10 attempts. Bilingual game in English & Spanish. No download required!">
+    <meta name="keywords" content="picas y fijas, bulls and cows, number guessing game, juego de números, logic game, puzzle game, free online game">
+    <meta name="author" content="Cristina Rodriguez">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.picasyfijas.com/">
 
-    <!-- Social media meta tags -->
+    <!-- Language alternates for SEO -->
+    <link rel="alternate" hreflang="en" href="https://www.picasyfijas.com/?lang=en">
+    <link rel="alternate" hreflang="es" href="https://www.picasyfijas.com/?lang=es">
+    <link rel="alternate" hreflang="x-default" href="https://www.picasyfijas.com/">
 
-    <!-- Open Graph (LinkedIn, Facebook) -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.picasyfijas.com/">
-    <meta property="og:title" content="Picas y Fijas - Bulls & Cows">
-    <meta property="og:description" content="Play the classic number guessing game online. Guess the 4-digit secret number!">
+    <meta property="og:title" content="Picas y Fijas - Bulls & Cows | Free Number Guessing Game">
+    <meta property="og:description" content="Guess the secret 4-digit number in 10 attempts. Play free online in English or Spanish!">
     <meta property="og:image" content="https://www.picasyfijas.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="es_CO">
+    <meta property="og:site_name" content="Picas y Fijas">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Picas y Fijas - Bulls & Cows">
-    <meta name="twitter:description" content="Play the classic number guessing game online. Guess the 4-digit secret number!">
+    <meta name="twitter:description" content="Guess the secret 4-digit number. Free online game in English & Spanish!">
     <meta name="twitter:image" content="https://www.picasyfijas.com/og-image.png">
 
-
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon-192.png">
+    <link rel="apple-touch-icon" href="/icon-192.png">
+    
+    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Privacy-friendly analytics by Plausible -->
+    <!-- Structured Data for Games -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Picas y Fijas - Bulls & Cows",
+      "description": "A bilingual number guessing game. Guess the secret 4-digit number in 10 attempts.",
+      "url": "https://www.picasyfijas.com",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Cristina Rodriguez",
+        "url": "https://www.yosola.co"
+      },
+      "inLanguage": ["en", "es"],
+      "browserRequirements": "Requires JavaScript"
+    }
+    </script>
+
+    <!-- Plausible Analytics -->
     <script async src="https://plausible.io/js/pa-Q6QXovPD1D3b-Xxb4XAxM.js"></script>
     <script>
         window.plausible = window.plausible || function () { (plausible.q = plausible.q || []).push(arguments) }, plausible.init = plausible.init || function (i) { plausible.o = i || {} };
         plausible.init()
     </script>
-
 </head>
 
 <body>
@@ -57,7 +97,7 @@
                 <button id="lang-es" class="language-btn" data-lang="es">🇨🇴</button>
                 <button id="install-icon" class="language-btn install-icon">📥</button>
             </div>
-            <h1 id="game-title">Bulls & Cows</h1>
+            <h1 id="game-title">Bulls & Cows - Also known as Picas y Fijas</h1>
         </header>
         <div class="container" id="number-container">
             <!-- Secret number boxes will be appended here -->

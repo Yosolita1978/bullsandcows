@@ -1,4 +1,4 @@
-const CACHE_NAME = 'Bulls-and-Cows-v4';
+const CACHE_NAME = 'Bulls-and-Cows-v5';
 
 const FILES_TO_CACHE = [
   '/',
@@ -9,6 +9,8 @@ const FILES_TO_CACHE = [
   '/icon-192.png',
   '/icon-512.png',
   '/og-image.png',
+  '/robots.txt',
+  '/sitemap.xml',
 ];
 
 // Install: cache all files

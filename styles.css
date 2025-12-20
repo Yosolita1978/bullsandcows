@@ -171,9 +171,24 @@ header {
 
 h1 {
     margin: 0;
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-family: 'Fredoka', sans-serif;
+    line-height: 1.3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-main {
+    font-size: clamp(2rem, 7vw, 2rem);
+    font-weight: 600;
     color: #FE938C;
-    line-height: 1.2;
+}
+
+.title-sub {
+    font-size: clamp(1rem, 3.5vw, 0.8rem);
+    font-weight: 200;
+    color: #3B1F2B;
+    opacity: 0.8;
 }
 
 .subtitle {

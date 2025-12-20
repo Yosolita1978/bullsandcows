@@ -5,7 +5,8 @@
     // --- Language System ---
     const translations = {
         en: {
-            gameTitle: "Bulls & Cows - Also known as Picas y Fijas",
+            gameTitleMain: "Bulls & Cows",
+            gameTitleSub: "Also known as Picas y Fijas",
             pageTitle: "Bulls & Cows - Number Guessing Game",
             metaDescription: "Play Bulls and Cows number guessing game online. Guess the 4-digit secret number!",
             submitBtn: "Enter",
@@ -62,7 +63,8 @@
             sharePlayedGame: "I just played Bulls & Cows!"
         },
         es: {
-            gameTitle: "Picas y Fijas - También conocido como Bulls and Cows",
+            gameTitleMain: "Picas y Fijas",
+            gameTitleSub: "También conocido como Bulls and Cows",
             pageTitle: "Picas y Fijas - Juego de Adivinanza de Números",
             metaDescription: "Juega Picas y Fijas en línea. ¡Adivina el número secreto de 4 dígitos!",
             submitBtn: "Enviar",
@@ -225,12 +227,14 @@
 
     function updateAllText() {
         // Update main UI elements
-        const gameTitle = document.getElementById('game-title');
+        const titleMain = document.getElementById('title-main');
+        const titleSub = document.getElementById('title-sub');
         const submitBtn = document.getElementById('submit-btn');
         const guessInput = document.getElementById('guess-input');
         const helpLink = document.getElementById('help-link');
         
-        if (gameTitle) gameTitle.textContent = getText('gameTitle');
+        if (titleMain) titleMain.textContent = getText('gameTitleMain');
+        if (titleSub) titleSub.textContent = getText('gameTitleSub');
         if (submitBtn) submitBtn.textContent = getText('submitBtn');
         if (guessInput) guessInput.placeholder = getText('inputPlaceholder');
         if (helpLink) helpLink.textContent = getText('helpLink');

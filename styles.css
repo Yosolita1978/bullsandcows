@@ -731,6 +731,11 @@ button:disabled {
     border-top: 1px solid rgba(59, 31, 43, 0.2);
     text-align: center;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8em;
+    flex-wrap: wrap;
 }
 
 .game-footer a {
@@ -745,13 +750,33 @@ button:disabled {
     text-decoration: underline;
 }
 
+.game-footer .badge-link:hover {
+    text-decoration: none;
+}
+
+.puzzled-badge {
+    height: 22px;
+    width: auto;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+}
+
+.puzzled-badge:hover {
+    opacity: 1;
+}
+
 @media (max-width: 480px) {
     .game-footer {
         margin-top: 1em;
         padding-top: 0.8em;
+        gap: 0.6em;
     }
     
     .game-footer a {
         font-size: 0.8em;
+    }
+    
+    .puzzled-badge {
+        height: 18px;
     }
 }
